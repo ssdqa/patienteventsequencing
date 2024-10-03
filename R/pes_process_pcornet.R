@@ -184,7 +184,7 @@ pes_process_pcornet <- function(cohort,
 
   }else{output <- pes_tbl_final %>% replace_site_col_pcnt()}
 
-  message(str_wrap(paste0('Based on your chosen parameters, we recommend using the following
+  cli::cli_inform(str_wrap(paste0('Based on your chosen parameters, we recommend using the following
                        output function in pes_output: ', output_type, '.')))
 
   return(output)

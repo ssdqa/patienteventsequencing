@@ -190,7 +190,7 @@ pes_process <- function(cohort,
 
   }else{output <- pes_tbl_final %>% replace_site_col()}
 
-  message(str_wrap(paste0('Based on your chosen parameters, we recommend using the following
+  cli::cli_inform(str_wrap(paste0('Based on your chosen parameters, we recommend using the following
                        output function in pes_output: ', output_type, '.')))
 
   return(output)
