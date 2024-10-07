@@ -342,6 +342,8 @@ pes_ss_anom_at <- function(process_output){
 #'
 pes_ms_anom_nt <- function(process_output){
 
+  check_n <- process_output %>%
+    filter(anomaly_yn != 'no outlier in group')
 
   dat_to_plot <- process_output %>%
     mutate(label = case_when(threshold_cutoff == 'thirty_thrs' ~ '30 days',
@@ -367,7 +369,9 @@ pes_ms_anom_nt <- function(process_output){
     arrange(desc(nums)) %>%
     mutate(labs = factor(label, levels = unique(label)))
 
-  plt<-ggplot(dat_to_plot,
+  if(nrow(check_n) > 0){
+
+    plt<-ggplot(dat_to_plot,
               aes(x=site, y=labs, text=text, color=prop_pts_thrs))+
     geom_point_interactive(aes(size=mean_val,shape=anomaly_yn, tooltip = text))+
     geom_point_interactive(data = dat_to_plot %>% filter(anomaly_yn == 'not outlier'),
@@ -386,10 +390,54 @@ pes_ms_anom_nt <- function(process_output){
            shape = guide_legend(title = 'Anomaly'),
            size = 'none')
 
-  plt[["metadata"]] <- tibble('pkg_backend' = 'ggiraph',
-                              'tooltip' = TRUE)
+    plt[["metadata"]] <- tibble('pkg_backend' = 'ggiraph',
+                                'tooltip' = TRUE)
 
-  return(plt)
+    return(plt)
+
+  }else{
+    plt <- ggplot(dat_to_plot, aes(x = site, y = labs, fill = prop_pts_thrs,
+                                   tooltip = text)) +
+      geom_tile_interactive() +
+      theme_minimal() +
+      scale_fill_ssdqa(discrete = FALSE, palette = 'diverging') +
+      labs(y = 'Threshold Cutoff',
+           x = 'Site',
+           fill = 'Proportion')
+
+    # Test Site Score using SD Computation
+    test_site_score <- process_output %>%
+      mutate(dist_mean = (prop_pts_thrs - mean_val)^2) %>%
+      group_by(site) %>%
+      summarise(n_grp = n(),
+                dist_mean_sum = sum(dist_mean),
+                overall_sd = sqrt(dist_mean_sum / n_grp)) %>%
+      mutate(tooltip = paste0('Site: ', site,
+                              '\nStandard Deviation: ', round(overall_sd, 3)))
+
+    ylim_max <- test_site_score %>% filter(overall_sd == max(overall_sd)) %>% pull(overall_sd) + 1
+    ylim_min <- test_site_score %>% filter(overall_sd == min(overall_sd)) %>% pull(overall_sd) - 1
+
+    g2 <- ggplot(test_site_score, aes(y = overall_sd, x = site, color = site,
+                                      tooltip = tooltip)) +
+      geom_point_interactive(show.legend = FALSE) +
+      theme_minimal() +
+      scale_color_ssdqa() +
+      geom_hline(yintercept = 0, linetype = 'solid') +
+      labs(title = 'Average Standard Deviation per Site',
+           y = 'Average Standard Deviation',
+           x = 'Site')
+
+    plt[["metadata"]] <- tibble('pkg_backend' = 'ggiraph',
+                                'tooltip' = TRUE)
+    g2[["metadata"]] <- tibble('pkg_backend' = 'ggiraph',
+                               'tooltip' = TRUE)
+
+    opt <- list(plt,
+                g2)
+
+    return(opt)
+  }
 
 }
 
