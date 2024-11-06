@@ -1,10 +1,11 @@
 
-#' Compute sequence of 2 events
+#' Compute sequence of 2 events -- PCORnet
 #'
 #' @param cohort a table with the cohort of interest; should minimally include:
-#'
-#'               a site column | @patid | @start_date | @end_date
-#'
+#' - `site`
+#' - `patid`
+#' - `start_date`
+#' - `end_date`
 #' @param grouped_list list of columns in the data that should be used to group
 #'                     the results
 #' @param site_col the name of the column with site name(s)
@@ -26,27 +27,21 @@
 #' @param time_period when time = TRUE, this argument defines the distance between dates within the specified time period. defaults
 #'                    to `year`, but other time periods such as `month` or `week` are also acceptable
 #' @param event_csv a csv file with the definitions for each event with the columns
-#'
-#'                  - @event - A or B
-#'                  - @event_label - a descriptive label for the event
-#'                  - @domain_tbl - the default CDM table from which data is retrieved
-#'                  - @concept_field - the field in the table where the codes of interest are
-#'                                     stored
-#'                  - @date_field - the date field to be used to establish the index &
-#'                                  occurrence dates
-#'                  - @codeset_name - the name of the codeset in the specs directory to
-#'                                    define the variable of interest
-#'                  - @filter_logic - a string indicating any filter logic that should be
-#'                                    applied to establish the event
-#'
-#'                                    ex: an Hba1c > 6.5
+#' - `event` - A or B
+#' - `event_label` - a descriptive label for the event
+#' - `domain_tbl` - the default CDM table from which data is retrieved
+#' - `concept_field` - the field in the table where the codes of interest are stored
+#' - `date_field` - the date field to be used to establish the index & occurrence dates
+#' - `vocabulary_field` - (PCORnet only) The name of the column in the domain table where the vocabulary type is stored
+#' - `codeset_name` - the name of the codeset in the specs directory to define the variable of interest
+#' - `filter_logic` - a string indicating any filter logic that should be applied to establish the event
+#' ex: an Hba1c > 6.5
 #'
 #' @return an aggregated dataframe outlining the number of patients that had the two events
 #'         occur in X number of days
 #'
 #'         if patient_level_tbl = TRUE, a patient level dataframe is also returned
 #'
-
 compute_event_sequence_pcnt <- function(cohort,
                                         grouped_list,
                                         site_col,
@@ -57,7 +52,7 @@ compute_event_sequence_pcnt <- function(cohort,
                                         time = FALSE,
                                         time_period = 'year',
                                         time_span = c('2011-01-01', '2023-12-31'),
-                                        event_csv = read_codeset('pes_events', 'ccccc')){
+                                        event_csv = patienteventsequencing::pes_event_file){
 
   ## Pull event information
   event_list <- split(event_csv, seq(nrow(event_csv)))
@@ -78,7 +73,12 @@ compute_event_sequence_pcnt <- function(cohort,
              !!sym(event_list[[i]]$date_field) <= end_date) %>%
       group_by(patid, !!!syms(grouped_list))
 
-    join_cols <- set_names('concept_id', event_list[[i]]$concept_field)
+    join_cols <- set_names('concept_code', event_list[[i]]$concept_field)
+
+    if(!is.na(event_list[[i]]$vocabulary_field)){
+      join_cols2 <- set_names('vocabulary_id', event_list[[i]]$vocabulary_field)
+      join_cols <- join_cols %>% append(join_cols2)
+    }
 
     if(is.na(event_list[[i]]$filter_logic)){
       event_index <- event_domain %>%
@@ -87,7 +87,7 @@ compute_event_sequence_pcnt <- function(cohort,
         mutate(event_n = row_number()) %>%
         filter(event_n == event_ct) %>%
         mutate(event_date = !!sym(event_list[[i]]$date_field)) %>%
-        distinct(person_id, !!!syms(grouped_list), event_date) %>%
+        distinct(patid, !!!syms(grouped_list), event_date) %>%
         collect() %>%
         mutate(event_type = event_list[[i]]$event,
                event_name = event_list[[i]]$event_label)

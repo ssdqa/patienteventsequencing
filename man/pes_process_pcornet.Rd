@@ -9,7 +9,7 @@ pes_process_pcornet(
   user_cutoff = 30,
   n_event_a = 1,
   n_event_b = 1,
-  pes_event_file = read_codeset("pes_events_1", "cccc"),
+  pes_event_file = patienteventsequencing::pes_event_file,
   multi_or_single_site = "single",
   anomaly_or_exploratory = "exploratory",
   age_groups = NULL,
@@ -22,7 +22,12 @@ pes_process_pcornet(
 }
 \arguments{
 \item{cohort}{cohort for SSDQA testing; required fields:
-\code{site} | \code{person_id} | \code{start_date} | \code{end_date} where start and end date}
+\itemize{
+\item \code{site}
+\item \code{patid}
+\item \code{start_date}
+\item \code{end_date}
+}}
 
 \item{user_cutoff}{user selected number of days between events to be used
 as a threshold cutoff for analyses}
@@ -41,16 +46,15 @@ string that is either \code{multi} or \code{single}}
 \item{anomaly_or_exploratory}{direction to determine what kind of check to run; a string
 that is either \code{anomaly} or \code{exploratory}}
 
-\item{age_groups}{If you would like to stratify the results by age group, fill out the provided \code{age_group_definitions.csv} file
-with the following information:
-- @min_age: the minimum age for the group (i.e. 10)
-- @max_age: the maximum age for the group (i.e. 20)
-- @group: a string label for the group (i.e. 10-20, Young Adult, etc.)
+\item{age_groups}{If you would like to stratify the results by age group,  create a table or CSV file with the following
+columns and include it as the \code{age_groups} function parameter:
+\itemize{
+\item \code{min_age}: the minimum age for the group (i.e. 10)
+\item \code{max_age}: the maximum age for the group (i.e. 20)
+\item \code{group}: a string label for the group (i.e. 10-20, Young Adult, etc.)
+}
 
-\if{html}{\out{<div class="sourceCode">}}\preformatted{                Then supply this csv file as the age_groups argument (i.e. read.csv('path/to/age_group_definitions.csv'))
-
-                If you would not like to stratify by age group, leave the argument as NULL
-}\if{html}{\out{</div>}}}
+If you would \emph{not} like to stratify by age group, leave the argument as NULL}
 
 \item{patient_level_tbl}{logical to define whether an intermediate table with
 patient level output should be returned}

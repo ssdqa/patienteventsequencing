@@ -1,9 +1,9 @@
 
-#' Patient Event Sequencing -- PCORnet
+#' Patient Event Sequencing -- OMOP
 #'
 #' @param cohort cohort for SSDQA testing; required fields:
 #' - `site`
-#' - `patid`
+#' - `person_id`
 #' - `start_date`
 #' - `end_date`
 #' @param user_cutoff user selected number of days between events to be used
@@ -38,20 +38,25 @@
 #'         over time analyses will return the same output, grouped by each time
 #'         period in the time span provided
 #'
+#' @import argos
+#' @import ssdqa.gen
+#' @import dplyr
+#' @import cli
+#' @importFrom stringr str_wrap
 #'
-pes_process_pcornet <- function(cohort,
-                                user_cutoff = 30,
-                                n_event_a = 1,
-                                n_event_b = 1,
-                                pes_event_file = patienteventsequencing::pes_event_file,
-                                multi_or_single_site = 'single',
-                                anomaly_or_exploratory='exploratory',
-                                age_groups = NULL,
-                                patient_level_tbl = FALSE,
-                                p_value = 0.9,
-                                time = FALSE,
-                                time_span = c('2012-01-01', '2020-01-01'),
-                                time_period = 'year'){
+pes_process_omop <- function(cohort,
+                             user_cutoff = 30,
+                             n_event_a = 1,
+                             n_event_b = 1,
+                             pes_event_file = patienteventsequencing::pes_event_file,
+                             multi_or_single_site = 'single',
+                             anomaly_or_exploratory='exploratory',
+                             age_groups = NULL,
+                             patient_level_tbl = FALSE,
+                             p_value = 0.9,
+                             time = FALSE,
+                             time_span = c('2012-01-01', '2020-01-01'),
+                             time_period = 'year'){
 
   ## parameter summary output
   # output_type <- suppressWarnings(param_summ(check_string = 'pes',
@@ -77,8 +82,8 @@ pes_process_pcornet <- function(cohort,
 
   # Prep cohort
 
-  cohort_prep <- prepare_cohort_pcnt(cohort_tbl = cohort_filter, age_groups = age_groups,
-                                     codeset = NULL) %>%
+  cohort_prep <- prepare_cohort(cohort_tbl = cohort_filter, age_groups = age_groups,
+                                codeset = NULL) %>%
     group_by(!!! syms(grouped_list))
 
   for(k in 1:length(site_list_adj)) {
@@ -88,7 +93,7 @@ pes_process_pcornet <- function(cohort,
     # filters by site
     cohort_site <- cohort_prep %>% filter(!!sym(site_col)%in%c(site_list_thisrnd))
 
-    pes_tbl_site <- compute_event_sequence_pcnt(cohort = cohort_site,
+    pes_tbl_site <- compute_event_sequence_omop(cohort = cohort_site,
                                                 grouped_list = grouped_list,
                                                 site_col = site_col,
                                                 user_cutoff = user_cutoff,

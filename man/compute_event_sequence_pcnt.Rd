@@ -2,7 +2,7 @@
 % Please edit documentation in R/pes_process_subfuncs_pcornet.R
 \name{compute_event_sequence_pcnt}
 \alias{compute_event_sequence_pcnt}
-\title{Compute sequence of 2 events}
+\title{Compute sequence of 2 events -- PCORnet}
 \usage{
 compute_event_sequence_pcnt(
   cohort,
@@ -15,14 +15,17 @@ compute_event_sequence_pcnt(
   time = FALSE,
   time_period = "year",
   time_span = c("2011-01-01", "2023-12-31"),
-  event_csv = read_codeset("pes_events", "ccccc")
+  event_csv = patienteventsequencing::pes_event_file
 )
 }
 \arguments{
 \item{cohort}{a table with the cohort of interest; should minimally include:
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{          a site column | @patid | @start_date | @end_date
-}\if{html}{\out{</div>}}}
+\itemize{
+\item \code{site}
+\item \code{patid}
+\item \code{start_date}
+\item \code{end_date}
+}}
 
 \item{grouped_list}{list of columns in the data that should be used to group
 the results}
@@ -52,21 +55,17 @@ to \code{year}, but other time periods such as \code{month} or \code{week} are a
 formatted as c(start date, end date) in yyyy-mm-dd date format.}
 
 \item{event_csv}{a csv file with the definitions for each event with the columns
-
-\if{html}{\out{<div class="sourceCode">}}\preformatted{             - @event - A or B
-             - @event_label - a descriptive label for the event
-             - @domain_tbl - the default CDM table from which data is retrieved
-             - @concept_field - the field in the table where the codes of interest are
-                                stored
-             - @date_field - the date field to be used to establish the index &
-                             occurrence dates
-             - @codeset_name - the name of the codeset in the specs directory to
-                               define the variable of interest
-             - @filter_logic - a string indicating any filter logic that should be
-                               applied to establish the event
-
-                               ex: an Hba1c > 6.5
-}\if{html}{\out{</div>}}}
+\itemize{
+\item \code{event} - A or B
+\item \code{event_label} - a descriptive label for the event
+\item \code{domain_tbl} - the default CDM table from which data is retrieved
+\item \code{concept_field} - the field in the table where the codes of interest are stored
+\item \code{date_field} - the date field to be used to establish the index & occurrence dates
+\item \code{vocabulary_field} - (PCORnet only) The name of the column in the domain table where the vocabulary type is stored
+\item \code{codeset_name} - the name of the codeset in the specs directory to define the variable of interest
+\item \code{filter_logic} - a string indicating any filter logic that should be applied to establish the event
+ex: an Hba1c > 6.5
+}}
 }
 \value{
 an aggregated dataframe outlining the number of patients that had the two events
@@ -76,5 +75,5 @@ occur in X number of days
 }\if{html}{\out{</div>}}
 }
 \description{
-Compute sequence of 2 events
+Compute sequence of 2 events -- PCORnet
 }

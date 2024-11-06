@@ -3,7 +3,6 @@
 export("%>%")
 export(pes_output)
 export(pes_process)
-export(pes_process_pcornet)
 import(argos)
 import(cli)
 import(dplyr)
