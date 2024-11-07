@@ -105,5 +105,5 @@ pes_process<- function(cohort,
   cli::cli_inform(str_wrap(paste0('Based on your chosen parameters, we recommend using the following
                        output function in csd_output: ', output_type, '.')))
 
-  return(csd_rslt)
+  return(pes_rslt)
 }
