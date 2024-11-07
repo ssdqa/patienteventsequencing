@@ -129,7 +129,9 @@ compute_event_sequence_omop <- function(cohort,
            event_b_name = event_name) %>% select(-event_type)
 
   event_ptlv <- eventa %>% left_join(eventb) %>%
-    mutate(num_days = as.numeric(event_b_occurrence_date - event_a_index_date)) %>%
+    mutate(num_days = sql(calc_days_between_dates(date_col_1 = 'event_a_index_date',
+                                                  date_col_2 = 'event_b_occurrence_date'))) %>%
+     # num_days = as.numeric(event_b_occurrence_date - event_a_index_date)) %>%
     mutate(user_cutoff = user_cutoff) %>% ungroup() %>% fill(event_b_name, .direction = 'updown')
 
   ## OPTIONAL: output patient level results
@@ -198,3 +200,43 @@ compute_event_sequence_omop <- function(cohort,
   return(op_list)
 
 }
+
+
+#' Function to get sql code for number of days between date1 and date2.
+#' Adapted for sql dialects for Postgres and MS SQL.
+#'
+#' Should always be wrapped by sql()
+#' @param date_col_1 Date col 1
+#' @param date_col_2 Date col 2
+#' @param db connection type object. Defaulted to config('db_src') for standard framework
+#' Functionality added for Postgres, MS SQL and Snowflake
+#'
+#' @return an integer representing the difference (in days) between the two provided
+#' dates
+#'
+#' @examples
+#' data %>% mutate(date_diff = sql(calc_days_between_dates(date_1, date2)))
+calc_days_between_dates <-
+  function(date_col_1, date_col_2, db = config("db_src")) {
+    if (class(db) == "Microsoft SQL Server") {
+      sql_code <-
+        paste0("DATEDIFF(day, ", date_col_1, ", ", date_col_2, ")")
+    } else if (class(db) == "PqConnection") {
+      sql_code <-
+        paste0(date_col_2, " - ", date_col_1)
+    } else if (class(db) == "Snowflake") {
+      sql_code <-
+        paste0(
+          "DATEDIFF(day, ",
+          '"',
+          date_col_1,
+          '"',
+          ",",
+          '"',
+          date_col_2,
+          '"',
+          ")"
+        )
+    }
+    return(sql_code)
+  }
