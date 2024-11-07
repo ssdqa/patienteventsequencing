@@ -198,9 +198,10 @@ pes_ss_exp_at <- function(process_output){
            thirty_thrs = ifelse(abs(num_days) <= 30, 1, 0),
            sixty_thrs = ifelse(abs(num_days) <= 60, 1, 0),
            ninety_thrs = ifelse(abs(num_days) <= 90, 1, 0),
-           year_thrs = ifelse(abs(num_days) <= 365, 1, 0)) %>%
+           year_thrs = ifelse(abs(num_days) <= 365, 1, 0),
+           pts_without_both = ifelse(is.na(num_days), 1, 0)) %>%
     pivot_longer(cols = c('user_thrs', 'thirty_thrs', 'sixty_thrs',
-                          'ninety_thrs', 'year_thrs')) %>%
+                          'ninety_thrs', 'year_thrs', 'pts_without_both')) %>%
     group_by(site, user_cutoff, total_pts, name, time_start) %>%
     summarise(n_pts_thrs = sum(value, na.rm = TRUE)) %>%
     mutate(prop_pts_thrs = round(n_pts_thrs / total_pts, 3),
@@ -212,16 +213,18 @@ pes_ss_exp_at <- function(process_output){
                              name == 'ninety_thrs' ~ '90 days',
                              name == 'year_thrs' ~ '1 year',
                              name == 'user_thrs' ~ paste0('User Threshold \n',
-                                                          user_cutoff, ' days')),
+                                                          user_cutoff, ' days'),
+                             name == 'pts_without_both' ~ 'Both Events \nNot Present'),
            nums = case_when(name == 'thirty_thrs' ~ 1,
                             name == 'sixty_thrs' ~ 2,
                             name == 'ninety_thrs' ~ 3,
                             name == 'year_thrs' ~ 4,
-                            name == 'user_thrs' ~ 5))
+                            name == 'user_thrs' ~ 5,
+                            name == 'pts_without_both' ~ 6))
 
 
-  lgrph <- ggplot(thrs_cutoffs,
-                 aes(x = time_start, y = prop_pts_thrs, color = name, text = text)) +
+  lgrph <- ggplot(thrs_cutoffs %>% arrange(nums),
+                 aes(x = time_start, y = prop_pts_thrs, color = label, group = label, text = text)) +
     geom_line() +
     theme_minimal() +
     scale_color_ssdqa() +
