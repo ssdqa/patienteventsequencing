@@ -103,7 +103,7 @@ pes_process<- function(cohort,
   }else{cli::cli_abort('Invalid argument for {.code omop_or_pcornet}: this function is only compatible with {.code omop} or {.code pcornet}')}
 
   cli::cli_inform(str_wrap(paste0('Based on your chosen parameters, we recommend using the following
-                       output function in csd_output: ', output_type, '.')))
+                       output function in pes_output: {.code ', output_type, '}.')))
 
   return(pes_rslt)
 }
