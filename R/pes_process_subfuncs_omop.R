@@ -143,7 +143,7 @@ compute_event_sequence_omop <- function(cohort,
     time_df <- tibble('time_start' = t1,
                       'time_end' = t2)
 
-    cat_df <- event_ptlv %>% select(!!sym(site_col), user_cutoff, event_a_name, event_b_name) %>%
+    cat_df <- event_ptlv %>% select(!!!syms(new_grp), user_cutoff, event_a_name, event_b_name) %>%
       distinct() %>% cross_join(time_df) %>% select(-time_end)
 
     event_agg <- event_ptlv %>%
@@ -168,7 +168,8 @@ compute_event_sequence_omop <- function(cohort,
 
     ## Total cohort denom
     total_pts <- cohort %>%
-      summarise(total_pts = n()) %>% pull(total_pts)
+      group_by(!!!syms(new_grp)) %>%
+      summarise(total_pts = n()) %>% collect() #%>% pull(total_pts)
 
     ## Aggregate patient level output
     event_agg <- event_ptlv %>%
@@ -176,7 +177,8 @@ compute_event_sequence_omop <- function(cohort,
                event_a_name, event_b_name) %>%
       summarise(pt_ct = n()) %>%
       ungroup() %>%
-      mutate(total_pts = total_pts)
+      left_join(total_pts)
+      # mutate(total_pts = total_pts)
 
     ## Both events not present
     event_miss <- event_agg %>%
