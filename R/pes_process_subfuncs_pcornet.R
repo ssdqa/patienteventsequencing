@@ -125,8 +125,7 @@ compute_event_sequence_pcnt <- function(cohort,
            event_b_name = event_name) %>% select(-event_type)
 
   event_ptlv <- eventa %>% left_join(eventb) %>%
-    mutate(num_days = sql(calc_days_between_dates(date_col_1 = 'event_a_index_date',
-                                                  date_col_2 = 'event_b_occurrence_date'))) %>%
+    mutate(num_days = as.numeric(event_b_occurrence_date - event_a_index_date)) %>%
     mutate(user_cutoff = user_cutoff) %>% ungroup() %>% fill(event_b_name, .direction = 'updown')
 
   ## OPTIONAL: output patient level results
