@@ -41,6 +41,8 @@
 #'         over time analyses will return the same output, grouped by each time
 #'         period in the time span provided
 #'
+#' @example inst/example-pes_process_output.R
+#'
 #' @export
 #'
 pes_process<- function(cohort,

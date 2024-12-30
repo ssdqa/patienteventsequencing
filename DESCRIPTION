@@ -1,13 +1,25 @@
 Package: patienteventsequencing
-Title: Patient Event Sequencing
+Title: Assess Plausibility of Event Sequence in Patient Records
 Version: 0.0.0.9000
 Authors@R: 
-    person("Kaleigh", "Wieand", , "wieandk@chop.edu", role = c("aut", "cre"))
-Description: This package represents one of several modules in the broader SSDQA ecosystem. The Patient Event Sequencing module computes the days between two user-specified events and summarizes the distribution within the cohort.
+    c(person("Hanieh", "Razzaghi", email = "razzaghih@chop.edu", role = c("aut"),
+             comment = c(ORCID = "0000-0001-5001-1590")),
+      person("Kaleigh", "Wieand", email = "wieandk@chop.edu", role = c("aut", "cre"),
+             comment = c(ORCID = "0009-0003-7477-2601")),
+      person("Kimberley", "Dickinson", email = "dickinsokl@chop.edu", role = c("aut"),
+             comment = c(ORCID = "0000-0001-9523-056X")),
+      person("Charles", "Bailey", email = "baileyc@chop.edu", role = c("aut"),
+             comment = c(ORCID = "0000-0002-8967-0662")))
+Description: The Patient Event Sequencing module, part of the larger SSDQA ecosystem, assesses the plausibility
+    of the sequence of two user-provided clinical events as they appear in a patient's record. This allows the user 
+    to ensure that the two events, like a cancer diagnosis and chemotherapy, occur in a sensible order and within an
+    expected length of time.
 License: MPL-2.0
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
+URL: https://github.com/ssdqa/patienteventsequencing, https://pedsnetapps.chop.edu/metadata/handle/20.500.14642/34
+BugReports: https://github.com/ssdqa/patienteventsequencing/issues
 Imports: 
     dbplyr (>= 2.3.4),
     dplyr (>= 1.1.4),

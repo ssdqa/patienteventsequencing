@@ -1,11 +1,14 @@
 
-#' Patient Event Sequencing Output
+#' Patient Event Sequencing -- Output Generation
 #'
 #' @param process_output the output of the `pes_process` function
 #' @param output_function the name of the output function that should be used provided in the `parameter_summary` csv
 #'                        file that is output to the provided results folder after running the `pes_process` function
 #'
-#' @return a graph or series of graphs visualizing the results from process_output
+#' @return a graph or series of graphs visualizing the results from pes_process; see individual
+#'         function documentation for more detail.
+#'
+#' @example inst/example-pes_process_output.R
 #'
 #' @export
 #'
@@ -13,33 +16,38 @@ pes_output <- function(process_output,
                        output_function){
 
 
-  if(output_function == 'pes_ss_exp_nt'){
+  if(output_function == 'pes_ss_exp_cs'){
 
-    pes_output <- pes_ss_exp_nt(process_output = process_output)
+    pes_output <- pes_ss_exp_cs(process_output = process_output)
 
-  }else if(output_function == 'pes_ms_exp_nt'){
+  }else if(output_function == 'pes_ss_anom_cs'){
 
-    pes_output <- pes_ms_exp_nt(process_output = process_output)
+    cli_alert_danger('There is no available Single Site, Anomaly Detection, Cross-Sectional
+                     output for this module. Please choose another output function.')
 
-  }else if(output_function == 'pes_ms_anom_nt'){
+  }else if(output_function == 'pes_ms_exp_cs'){
 
-    pes_output <- pes_ms_anom_nt(process_output = process_output)
+    pes_output <- pes_ms_exp_cs(process_output = process_output)
 
-  }else if(output_function == 'pes_ss_exp_at'){
+  }else if(output_function == 'pes_ms_anom_cs'){
 
-    pes_output <- pes_ss_exp_at(process_output = process_output)
+    pes_output <- pes_ms_anom_cs(process_output = process_output)
 
-  }else if(output_function == 'pes_ss_anom_at'){
+  }else if(output_function == 'pes_ss_exp_la'){
 
-    pes_output <- pes_ss_anom_at(process_output = process_output)
+    pes_output <- pes_ss_exp_la(process_output = process_output)
 
-  }else if(output_function == 'pes_ms_exp_at'){
+  }else if(output_function == 'pes_ss_anom_la'){
 
-    pes_output <- pes_ms_exp_at(process_output = process_output)
+    pes_output <- pes_ss_anom_la(process_output = process_output)
 
-  }else if(output_function == 'pes_ms_anom_at'){
+  }else if(output_function == 'pes_ms_exp_la'){
 
-    pes_output <- pes_ms_anom_at(process_output = process_output)
+    pes_output <- pes_ms_exp_la(process_output = process_output)
+
+  }else if(output_function == 'pes_ms_anom_la'){
+
+    pes_output <- pes_ms_anom_la(process_output = process_output)
 
   }else{cli::cli_abort('Please enter a valid output_function for this check type.')}
 

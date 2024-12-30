@@ -20,7 +20,23 @@ test_that('single site, exploratory, no time', {
                             pts_without_both = c(20, 20, 20, 20, 20, 20, 20, 20, 20))
 
   expect_no_error(pes_output(process_output = tbl_test,
-                             output_function = 'pes_ss_exp_nt'))
+                             output_function = 'pes_ss_exp_cs'))
+
+})
+
+test_that('single site, anomaly, no time', {
+
+  tbl_test <- tidyr::tibble(site = c('a', 'a', 'a', 'a', 'a', 'a', 'a', 'a', 'a'),
+                            num_days = c(-100, -75, -50, -25, 0, 25, 50, 75, 100),
+                            user_cutoff = c(25, 25, 25, 25, 25, 25, 25, 25, 25),
+                            event_a_name = c('t1', 't1', 't1', 't1', 't1', 't1', 't1', 't1', 't1'),
+                            event_b_name = c('t1', 't1', 't1', 't1', 't1', 't1', 't1', 't1', 't1'),
+                            pt_ct = c(4, 2, 7, 3, 100, 5, 2, 8, 6),
+                            total_pts = c(250, 250, 250, 250, 250, 250, 250, 250, 250),
+                            pts_without_both = c(20, 20, 20, 20, 20, 20, 20, 20, 20))
+
+  expect_message(pes_output(process_output = tbl_test,
+                             output_function = 'pes_ss_anom_cs'))
 
 })
 
@@ -37,7 +53,7 @@ test_that('multi site, exploratory, no time', {
                             pts_without_both = c(20, 20, 20, 20, 20, 20, 20, 20, 20))
 
   expect_no_error(pes_output(process_output = tbl_test,
-                             output_function = 'pes_ms_exp_nt'))
+                             output_function = 'pes_ms_exp_cs'))
 
 })
 
@@ -67,10 +83,10 @@ test_that('multi site, anomaly detection, no time', {
                             'anomaly_yn' = c('no outlier', 'outlier', 'outlier'))
 
   expect_no_error(pes_output(process_output = tbl_test,
-                             output_function = 'pes_ms_anom_nt'))
+                             output_function = 'pes_ms_anom_cs'))
 
   expect_no_error(pes_output(process_output = tbl_test %>% dplyr::mutate(anomaly_yn = 'no outlier in group'),
-                             output_function = 'pes_ms_anom_nt'))
+                             output_function = 'pes_ms_anom_cs'))
 
 })
 
@@ -96,7 +112,7 @@ test_that('single site, exploratory, across time', {
                                                'year', 'year', 'year', 'year', 'year'))
 
   expect_no_error(pes_output(process_output = tbl_test,
-                             output_function = 'pes_ss_exp_at'))
+                             output_function = 'pes_ss_exp_la'))
 
 })
 
@@ -121,7 +137,7 @@ test_that('multi site, exploratory, across time', {
                                                'year', 'year', 'year', 'year', 'year'))
 
   expect_no_error(pes_output(process_output = tbl_test,
-                             output_function = 'pes_ms_exp_at'))
+                             output_function = 'pes_ms_exp_la'))
 
 })
 
@@ -147,7 +163,7 @@ test_that('single site, anomaly detection, across time', {
                                                'year', 'year', 'year', 'year', 'year'))
 
   expect_no_error(pes_output(process_output = tbl_test,
-                             output_function = 'pes_ss_anom_at'))
+                             output_function = 'pes_ss_anom_la'))
 
 })
 
@@ -174,6 +190,6 @@ test_that('multi site, anomaly detection, across time', {
                             'dist_eucl_mean' = c(0.84,0.84,0.84,0.84,0.84,0.9,0.9,0.9,0.9))
 
   expect_no_error(pes_output(process_output = tbl_test,
-                             output_function = 'pes_ms_anom_at'))
+                             output_function = 'pes_ms_anom_la'))
 
 })
