@@ -84,7 +84,11 @@ and the number of patients who had the events occur that far apart;
 }\if{html}{\out{</div>}}
 }
 \description{
-Patient Event Sequencing
+This is a plausibility module that will evaluate the sequence of two clinical
+events to establish whether they occur in the expected order. Users can define
+the clinical events in the \code{pes_event_file} input, an example of which can be seen
+using \verb{patienteventsequencing::}. This function is compatible with both the OMOP
+and PCORnet CDMs based on the user's selection.
 }
 \examples{
 

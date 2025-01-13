@@ -1,6 +1,12 @@
 
 #' Patient Event Sequencing
 #'
+#' This is a plausibility module that will evaluate the sequence of two clinical
+#' events to establish whether they occur in the expected order. Users can define
+#' the clinical events in the `pes_event_file` input, an example of which can be seen
+#' using `patienteventsequencing::`. This function is compatible with both the OMOP
+#' and PCORnet CDMs based on the user's selection.
+#'
 #' @param cohort cohort for SSDQA testing; required fields:
 #' - `site`
 #' - `person_id`

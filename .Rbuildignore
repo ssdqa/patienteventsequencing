@@ -4,3 +4,4 @@
 ^LICENSE.txt
 ^.github
 ^\.github$
+^cran-comments\.md$
