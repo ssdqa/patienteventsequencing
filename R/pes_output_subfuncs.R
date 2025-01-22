@@ -44,7 +44,8 @@ pes_ss_exp_cs <- function(process_output){
   ## Missing Event Bar Graph
   missing_events <- process_output %>%
     mutate(prop_miss = pts_without_both / total_pts,
-           xlab = '')
+           xlab = '') %>%
+    distinct(prop_miss, xlab)
 
   miss_grph <- missing_events %>%
     ggplot(aes(y = prop_miss, x = xlab, fill = xlab)) +
