@@ -37,7 +37,7 @@ pes_ss_exp_cs <- function(process_output){
                linetype = 'dotted') +
     theme_minimal() +
     theme(legend.position = 'none') +
-    scale_fill_ssdqa(discrete = FALSE) +
+    scale_fill_squba(discrete = FALSE) +
     labs(x = 'Days Between Events',
          title = 'Distribution of Time Between Events')
 
@@ -51,7 +51,7 @@ pes_ss_exp_cs <- function(process_output){
     ggplot(aes(y = prop_miss, x = xlab, fill = xlab)) +
     geom_col(show.legend = FALSE) +
     geom_label(aes(label = round(prop_miss, 3)), fill = 'white') +
-    scale_fill_manual(values = ssdqa_colors_standard[[2]]) +
+    scale_fill_manual(values = squba_colors_standard[[2]]) +
     theme_minimal() +
     ylim(0,1) +
     labs(x = '',
@@ -87,7 +87,7 @@ pes_ss_exp_cs <- function(process_output){
     geom_col() +
     theme_minimal() +
     theme(legend.position = 'none') +
-    scale_fill_ssdqa() +
+    scale_fill_squba() +
     labs(x = 'Threshold',
          y = 'Proportion Patients',
          title = 'Proportion of Patients where Events \nOccur within Threshold Window')
@@ -167,7 +167,7 @@ pes_ms_exp_cs <- function(process_output){
                linetype = 'dotted') +
     theme_minimal() +
     theme(legend.position = 'none') +
-    scale_fill_ssdqa() +
+    scale_fill_squba() +
     labs(x = 'Site',
          y = 'Proportion Patients',
          title = 'Proportion of Patients where Events \nOccur within Threshold Window')
@@ -228,7 +228,7 @@ pes_ss_exp_la <- function(process_output){
                  aes(x = time_start, y = prop_pts_thrs, color = label, group = label, text = text)) +
     geom_line() +
     theme_minimal() +
-    scale_color_ssdqa() +
+    scale_color_squba() +
     labs(y = 'Proportion',
          x = 'Time',
          color = 'Threshold Cutoff',
@@ -281,7 +281,7 @@ pes_ms_exp_la <- function(process_output){
     geom_line() +
     geom_line(data = filter(allsite_median, site == "All Site Median"), size = 1.5) +
     theme_minimal() +
-    scale_color_ssdqa() +
+    scale_color_squba() +
     labs(y = 'Proportion',
          x = 'Time',
          color = 'Site',
@@ -333,11 +333,11 @@ pes_ss_anom_la <- function(process_output){
 
     new_pp <- ggplot(op_dat,aes(x,y)) +
       geom_ribbon(aes(ymin = lcl,ymax = ucl), fill = "lightgray",alpha = 0.4) +
-      geom_line(colour = ssdqa_colors_standard[[12]], size = .5) +
+      geom_line(colour = squba_colors_standard[[12]], size = .5) +
       geom_line(aes(x,cl)) +
-      geom_point(colour = ssdqa_colors_standard[[6]] , fill = ssdqa_colors_standard[[6]], size = 1) +
-      geom_point(data = subset(op_dat, y >= ucl), color = ssdqa_colors_standard[[3]], size = 2) +
-      geom_point(data = subset(op_dat, y <= lcl), color = ssdqa_colors_standard[[3]], size = 2) +
+      geom_point(colour = squba_colors_standard[[6]] , fill = squba_colors_standard[[6]], size = 1) +
+      geom_point(data = subset(op_dat, y >= ucl), color = squba_colors_standard[[3]], size = 2) +
+      geom_point(data = subset(op_dat, y <= lcl), color = squba_colors_standard[[3]], size = 2) +
       #facet_wrap(~facet1, scales = 'free_y', ncol = 2) +
       ggtitle(label = paste0('Control Chart: Proportion of Patients Meeting \n', thrs, ' User Threshold')) +
       labs(x = 'Time',
@@ -397,7 +397,7 @@ pes_ms_anom_cs <- function(process_output){
     geom_point_interactive(aes(size=mean_val,shape=anomaly_yn, tooltip = text))+
     geom_point_interactive(data = dat_to_plot %>% filter(anomaly_yn == 'not outlier'),
                            aes(size=mean_val,shape=anomaly_yn, tooltip = text), shape = 1, color = 'black')+
-    scale_color_ssdqa(palette = 'diverging', discrete = FALSE) +
+    scale_color_squba(palette = 'diverging', discrete = FALSE) +
     scale_shape_manual(values=c(19,8))+
     #scale_y_discrete(labels = function(x) str_wrap(x, width = text_wrapping_char)) +
     theme_minimal() +
@@ -421,7 +421,7 @@ pes_ms_anom_cs <- function(process_output){
                                    tooltip = text)) +
       geom_tile_interactive() +
       theme_minimal() +
-      scale_fill_ssdqa(discrete = FALSE, palette = 'diverging') +
+      scale_fill_squba(discrete = FALSE, palette = 'diverging') +
       labs(y = 'Threshold Cutoff',
            x = 'Site',
            fill = 'Proportion')
@@ -443,7 +443,7 @@ pes_ms_anom_cs <- function(process_output){
                                       tooltip = tooltip)) +
       geom_point_interactive(show.legend = FALSE) +
       theme_minimal() +
-      scale_color_ssdqa() +
+      scale_color_squba() +
       geom_hline(yintercept = 0, linetype = 'solid') +
       labs(title = 'Average Standard Deviation per Site',
            y = 'Average Standard Deviation',
@@ -505,7 +505,7 @@ pes_ms_anom_la <- function(process_output){
     geom_smooth(se=TRUE,alpha=0.1,linewidth=0.5, formula = y ~ x) +
     theme_minimal() +
     #theme(axis.text.x = element_text(angle = 30, vjust = 1, hjust=1)) +
-    scale_color_ssdqa() +
+    scale_color_squba() +
     labs(y = 'Proportion (Loess)',
          x = 'Time',
          title = paste0('Smoothed Proportion of Patients Meeting \n', thrs, ' Day User Threshold'))
@@ -517,7 +517,7 @@ pes_ms_anom_la <- function(process_output){
     geom_line(linewidth=0.2) +
     theme_minimal() +
     #theme(axis.text.x = element_text(angle = 30, vjust = 1, hjust=1)) +
-    scale_color_ssdqa() +
+    scale_color_squba() +
     labs(x = 'Time',
          y = 'Proportion',
          title = paste0('Raw Proportion of Patients Meeting \n', thrs, ' Day User Threshold'))
@@ -536,7 +536,7 @@ pes_ms_anom_la <- function(process_output){
     coord_radial(r.axis.inside = FALSE, rotate.angle = TRUE) +
     guides(theta = guide_axis_theta(angle = 0)) +
     theme_minimal() +
-    scale_fill_ssdqa(palette = 'diverging', discrete = FALSE) +
+    scale_fill_squba(palette = 'diverging', discrete = FALSE) +
     # theme(legend.position = 'bottom',
     #       legend.text = element_text(angle = 45, vjust = 0.9, hjust = 1),
     #       axis.text.x = element_text(face = 'bold')) +

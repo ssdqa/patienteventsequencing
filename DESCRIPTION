@@ -10,7 +10,7 @@ Authors@R:
              comment = c(ORCID = "0000-0001-9523-056X")),
       person("Charles", "Bailey", email = "baileyc@chop.edu", role = c("aut"),
              comment = c(ORCID = "0000-0002-8967-0662")))
-Description: The Patient Event Sequencing module, part of the larger SSDQA ecosystem, assesses the plausibility
+Description: The Patient Event Sequencing module, part of the larger SQUBA ecosystem, assesses the plausibility
     of the sequence of two user-provided clinical events as they appear in a patient's record. This allows the user 
     to ensure that the two events, like a cancer diagnosis and chemotherapy, occur in a sensible order and within an
     expected length of time.
@@ -38,8 +38,8 @@ Imports:
 Depends: 
     argos,
     R (>= 2.10),
-    ssdqa.gen
-Remotes: ssdqa/ssdqa.gen, PEDSnet/argos
+    squba.gen
+Remotes: ssdqa/squba.gen, PEDSnet/argos
 LazyData: true
 Suggests: 
     DBI,

@@ -1,7 +1,7 @@
 
 #' Patient Event Sequencing -- PCORnet
 #'
-#' @param cohort cohort for SSDQA testing; required fields:
+#' @param cohort cohort for SQUBA testing; required fields:
 #' - `site`
 #' - `patid`
 #' - `start_date`

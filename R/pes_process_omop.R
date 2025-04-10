@@ -1,7 +1,7 @@
 
 #' Patient Event Sequencing -- OMOP
 #'
-#' @param cohort cohort for SSDQA testing; required fields:
+#' @param cohort cohort for SQUBA testing; required fields:
 #' - `site`
 #' - `person_id`
 #' - `start_date`
@@ -39,7 +39,7 @@
 #'         period in the time span provided
 #'
 #' @import argos
-#' @import ssdqa.gen
+#' @import squba.gen
 #' @import dplyr
 #' @import cli
 #' @importFrom stringr str_wrap
