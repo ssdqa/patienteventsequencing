@@ -4,13 +4,10 @@
 \alias{pes_output}
 \title{Patient Event Sequencing -- Output Generation}
 \usage{
-pes_output(process_output, output_function)
+pes_output(process_output)
 }
 \arguments{
-\item{process_output}{the output of the \code{pes_process} function}
-
-\item{output_function}{the name of the output function that should be used provided in the \code{parameter_summary} csv
-file that is output to the provided results folder after running the \code{pes_process} function}
+\item{process_output}{\emph{tabular input} | the output of the \code{pes_process} function}
 }
 \value{
 a graph or series of graphs visualizing the results from pes_process; see individual
@@ -72,8 +69,7 @@ pes_process_example <- pes_process(cohort = cohort,
 pes_process_example
 
 #' Execute `pes_output` function
-pes_output_example <- pes_output(process_output = pes_process_example,
-                                 output_function = 'pes_ss_exp_cs')
+pes_output_example <- pes_output(process_output = pes_process_example)
 
 pes_output_example
 

@@ -7,38 +7,39 @@
 #' using `patienteventsequencing::`. This function is compatible with both the OMOP
 #' and PCORnet CDMs based on the user's selection.
 #'
-#' @param cohort cohort for SQUBA testing; required fields:
-#' - `site`
-#' - `person_id`
-#' - `start_date`
-#' - `end_date`
-#' @param user_cutoff user selected number of days between events to be used
+#' @param cohort *tabular input* | cohort for SQUBA testing; required fields:
+#' - `site` | *character*
+#' - `person_id` / `patid` | *integer* / *character*
+#' - `start_date` | *date*
+#' - `end_date` | *date*
+#' @param user_cutoff *integer* | user selected number of days between events to be used
 #'                    as a threshold cutoff for analyses
-#' @param n_event_a the number of times event A should occur before establishing
+#' @param n_event_a *integer* | the number of times event A should occur before establishing
 #'                  the index date; defaults to 1
-#' @param n_event_b the number of times event B should occur before establishing
+#' @param n_event_b *integer* | the number of times event B should occur before establishing
 #'                  the occurrence date; defaults to 1
-#' @param pes_event_file CSV file with definitions of each of the events
-#' @param omop_or_pcornet Option to run the function using the OMOP or PCORnet CDM as the default CDM
+#' @param pes_event_file *tabular input* | CSV file with definitions of each of the events; see
+#' `patienteventsequencing::pes_event_file` for an example
+#' @param omop_or_pcornet *string* | Option to run the function using the OMOP or PCORnet CDM as the default CDM
 #' - `omop`: run the [pes_process_omop()] function against an OMOP CDM instance
 #' - `pcornet`: run the [pes_process_pcornet()] function against a PCORnet CDM instance
-#' @param multi_or_single_site direction to determine what kind of check to run
+#' @param multi_or_single_site *string* | direction to determine what kind of check to run
 #'                             string that is either `multi` or `single`
-#' @param anomaly_or_exploratory direction to determine what kind of check to run; a string
+#' @param anomaly_or_exploratory *string* | direction to determine what kind of check to run; a string
 #'                               that is either `anomaly` or `exploratory`
-#' @param age_groups If you would like to stratify the results by age group,  create a table or CSV file with the following
+#' @param age_groups *tabular input*  | If you would like to stratify the results by age group,  create a table or CSV file with the following
 #'                   columns and include it as the `age_groups` function parameter:
-#' - `min_age`: the minimum age for the group (i.e. 10)
-#' - `max_age`: the maximum age for the group (i.e. 20)
-#' - `group`: a string label for the group (i.e. 10-20, Young Adult, etc.)
+#' - `min_age` | *integer* | the minimum age for the group (i.e. 10)
+#' - `max_age` | *integer* | the maximum age for the group (i.e. 20)
+#' - `group` | *character* | a string label for the group (i.e. 10-20, Young Adult, etc.)
 #'
 #' If you would *not* like to stratify by age group, leave the argument as NULL
-#' @param patient_level_tbl logical to define whether an intermediate table with
+#' @param patient_level_tbl *boolean* | logical to define whether an intermediate table with
 #'                         patient level output should be returned
-#' @param p_value the p value to be used as a threshold in the multi-site anomaly detection analysis
-#' @param time logical to determine whether to output the check across time
-#' @param time_span when `time = TRUE`, a vector of two dates for the observation period of the study
-#' @param time_period when time = TRUE, this argument defines the distance between dates within the specified time period. defaults
+#' @param p_value *numeric* | the p value to be used as a threshold in the multi-site anomaly detection analysis
+#' @param time *boolean* | logical to determine whether to output the check across time
+#' @param time_span *vector - length 2* | when `time = TRUE`, a vector of two dates for the observation period of the study
+#' @param time_period *string* | when time = TRUE, this argument defines the distance between dates within the specified time period. defaults
 #'                    to `year`, but other time periods such as `month` or `week` are also acceptable
 #'
 #' @return dataframe with the number of days between events A and B as an integer,
@@ -111,8 +112,17 @@ pes_process<- function(cohort,
 
   }else{cli::cli_abort('Invalid argument for {.code omop_or_pcornet}: this function is only compatible with {.code omop} or {.code pcornet}')}
 
-  cli::cli_inform(paste0(col_green('Based on your chosen parameters, we recommend using the following
-                       output function in pes_output: '), col_blue(style_bold(output_type,'.'))))
+
+  if('list' %in% class(pes_rslt)){
+    pes_rslt[[1]] <- pes_rslt[[1]] %>% mutate(output_function = output_type$string)
+  }else{
+    pes_rslt <- pes_rslt %>% mutate(output_function = output_type$string)
+  }
+
+  print(cli::boxx(c('You can optionally use this dataframe in the accompanying',
+                    '`pes_output` function. Here are the parameters you will need:', '', output_type$vector, '',
+                    'See ?pes_output for more details.'), padding = c(0,1,0,1),
+                  header = cli::col_cyan('Output Function Details')))
 
   return(pes_rslt)
 }

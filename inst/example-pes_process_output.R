@@ -47,8 +47,7 @@ pes_process_example <- pes_process(cohort = cohort,
 pes_process_example
 
 #' Execute `pes_output` function
-pes_output_example <- pes_output(process_output = pes_process_example,
-                                 output_function = 'pes_ss_exp_cs')
+pes_output_example <- pes_output(process_output = pes_process_example)
 
 pes_output_example
 

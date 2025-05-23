@@ -22,57 +22,58 @@ pes_process(
 )
 }
 \arguments{
-\item{cohort}{cohort for SQUBA testing; required fields:
+\item{cohort}{\emph{tabular input} | cohort for SQUBA testing; required fields:
 \itemize{
-\item \code{site}
-\item \code{person_id}
-\item \code{start_date}
-\item \code{end_date}
+\item \code{site} | \emph{character}
+\item \code{person_id} / \code{patid} | \emph{integer} / \emph{character}
+\item \code{start_date} | \emph{date}
+\item \code{end_date} | \emph{date}
 }}
 
-\item{user_cutoff}{user selected number of days between events to be used
+\item{user_cutoff}{\emph{integer} | user selected number of days between events to be used
 as a threshold cutoff for analyses}
 
-\item{n_event_a}{the number of times event A should occur before establishing
+\item{n_event_a}{\emph{integer} | the number of times event A should occur before establishing
 the index date; defaults to 1}
 
-\item{n_event_b}{the number of times event B should occur before establishing
+\item{n_event_b}{\emph{integer} | the number of times event B should occur before establishing
 the occurrence date; defaults to 1}
 
-\item{pes_event_file}{CSV file with definitions of each of the events}
+\item{pes_event_file}{\emph{tabular input} | CSV file with definitions of each of the events; see
+\code{patienteventsequencing::pes_event_file} for an example}
 
-\item{omop_or_pcornet}{Option to run the function using the OMOP or PCORnet CDM as the default CDM
+\item{omop_or_pcornet}{\emph{string} | Option to run the function using the OMOP or PCORnet CDM as the default CDM
 \itemize{
 \item \code{omop}: run the \code{\link[=pes_process_omop]{pes_process_omop()}} function against an OMOP CDM instance
 \item \code{pcornet}: run the \code{\link[=pes_process_pcornet]{pes_process_pcornet()}} function against a PCORnet CDM instance
 }}
 
-\item{multi_or_single_site}{direction to determine what kind of check to run
+\item{multi_or_single_site}{\emph{string} | direction to determine what kind of check to run
 string that is either \code{multi} or \code{single}}
 
-\item{anomaly_or_exploratory}{direction to determine what kind of check to run; a string
+\item{anomaly_or_exploratory}{\emph{string} | direction to determine what kind of check to run; a string
 that is either \code{anomaly} or \code{exploratory}}
 
-\item{age_groups}{If you would like to stratify the results by age group,  create a table or CSV file with the following
+\item{age_groups}{\emph{tabular input}  | If you would like to stratify the results by age group,  create a table or CSV file with the following
 columns and include it as the \code{age_groups} function parameter:
 \itemize{
-\item \code{min_age}: the minimum age for the group (i.e. 10)
-\item \code{max_age}: the maximum age for the group (i.e. 20)
-\item \code{group}: a string label for the group (i.e. 10-20, Young Adult, etc.)
+\item \code{min_age} | \emph{integer} | the minimum age for the group (i.e. 10)
+\item \code{max_age} | \emph{integer} | the maximum age for the group (i.e. 20)
+\item \code{group} | \emph{character} | a string label for the group (i.e. 10-20, Young Adult, etc.)
 }
 
 If you would \emph{not} like to stratify by age group, leave the argument as NULL}
 
-\item{patient_level_tbl}{logical to define whether an intermediate table with
+\item{patient_level_tbl}{\emph{boolean} | logical to define whether an intermediate table with
 patient level output should be returned}
 
-\item{p_value}{the p value to be used as a threshold in the multi-site anomaly detection analysis}
+\item{p_value}{\emph{numeric} | the p value to be used as a threshold in the multi-site anomaly detection analysis}
 
-\item{time}{logical to determine whether to output the check across time}
+\item{time}{\emph{boolean} | logical to determine whether to output the check across time}
 
-\item{time_span}{when \code{time = TRUE}, a vector of two dates for the observation period of the study}
+\item{time_span}{\emph{vector - length 2} | when \code{time = TRUE}, a vector of two dates for the observation period of the study}
 
-\item{time_period}{when time = TRUE, this argument defines the distance between dates within the specified time period. defaults
+\item{time_period}{\emph{string} | when time = TRUE, this argument defines the distance between dates within the specified time period. defaults
 to \code{year}, but other time periods such as \code{month} or \code{week} are also acceptable}
 }
 \value{
@@ -140,8 +141,7 @@ pes_process_example <- pes_process(cohort = cohort,
 pes_process_example
 
 #' Execute `pes_output` function
-pes_output_example <- pes_output(process_output = pes_process_example,
-                                 output_function = 'pes_ss_exp_cs')
+pes_output_example <- pes_output(process_output = pes_process_example)
 
 pes_output_example
 

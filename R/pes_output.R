@@ -6,9 +6,7 @@
 #' be adjusted by the user after the graph has been output using `+ theme()`. Most graphs can
 #' also be made interactive using `make_interactive_squba()`
 #'
-#' @param process_output the output of the `pes_process` function
-#' @param output_function the name of the output function that should be used provided in the `parameter_summary` csv
-#'                        file that is output to the provided results folder after running the `pes_process` function
+#' @param process_output *tabular input* | the output of the `pes_process` function
 #'
 #' @return a graph or series of graphs visualizing the results from pes_process; see individual
 #'         function documentation for more detail.
@@ -17,8 +15,10 @@
 #'
 #' @export
 #'
-pes_output <- function(process_output,
-                       output_function){
+pes_output <- function(process_output){
+
+  # extract output function
+  output_function <- process_output %>% collect() %>% ungroup() %>% distinct(output_function) %>% pull()
 
 
   if(output_function == 'pes_ss_exp_cs'){
