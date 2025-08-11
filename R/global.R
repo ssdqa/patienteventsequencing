@@ -13,4 +13,6 @@ utils::globalVariables(c('person_id', 'patid', 'start_date', 'end_date', 'fu',
                          'overall_sd', 'prop_col', 'prop_event', 'pt_ct', 'site',
                          'site_loess', 'text_raw', 'text_smooth', 'user_cutoff',
                          'time_end', 'time_increment', 'time_start', 'tooltip',
-                         'total_pts', 'ucl', 'value', 'x', 'y', 'ycol'))
+                         'total_pts', 'ucl', 'value', 'x', 'y', 'ycol', 'zscr',
+                         'closest_site', 'delim', 'farthest_site', 'iqr_val', 'med',
+                         'nvar', 'q1', 'q3', 'site_anoms', 'site_w_anom'))

@@ -4,10 +4,15 @@
 \alias{pes_output}
 \title{Patient Event Sequencing -- Output Generation}
 \usage{
-pes_output(process_output)
+pes_output(process_output, large_n = FALSE, large_n_sites = NULL)
 }
 \arguments{
 \item{process_output}{\emph{tabular input} | the output of the \code{pes_process} function}
+
+\item{large_n}{\emph{boolean} | for multi site analyses, a boolean indicating whether the large N visualization, intended for a high
+volume of sites, should be used; defaults to FALSE}
+
+\item{large_n_sites}{\emph{vector} | when large_n is TRUE, a vector of site names that can optionally generate a filtered visualization}
 }
 \value{
 a graph or series of graphs visualizing the results from pes_process; see individual
