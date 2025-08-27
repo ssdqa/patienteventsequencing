@@ -7,6 +7,9 @@
 #' also be made interactive using `make_interactive_squba()`
 #'
 #' @param process_output *tabular input* | the output of the `pes_process` function
+#' @param large_n *boolean* | for multi site analyses, a boolean indicating whether the large N visualization, intended for a high
+#'                volume of sites, should be used; defaults to FALSE
+#' @param large_n_sites *vector* | when large_n is TRUE, a vector of site names that can optionally generate a filtered visualization
 #'
 #' @return a graph or series of graphs visualizing the results from pes_process; see individual
 #'         function documentation for more detail.
@@ -15,7 +18,9 @@
 #'
 #' @export
 #'
-pes_output <- function(process_output){
+pes_output <- function(process_output,
+                       large_n = FALSE,
+                       large_n_sites = NULL){
 
   # extract output function
   output_function <- process_output %>% collect() %>% ungroup() %>% distinct(output_function) %>% pull()
@@ -32,11 +37,15 @@ pes_output <- function(process_output){
 
   }else if(output_function == 'pes_ms_exp_cs'){
 
-    pes_output <- pes_ms_exp_cs(process_output = process_output)
+    pes_output <- pes_ms_exp_cs(process_output = process_output,
+                                large_n = large_n,
+                                large_n_sites = large_n_sites)
 
   }else if(output_function == 'pes_ms_anom_cs'){
 
-    pes_output <- pes_ms_anom_cs(process_output = process_output)
+    pes_output <- pes_ms_anom_cs(process_output = process_output,
+                                 large_n = large_n,
+                                 large_n_sites = large_n_sites)
 
   }else if(output_function == 'pes_ss_exp_la'){
 
@@ -48,11 +57,15 @@ pes_output <- function(process_output){
 
   }else if(output_function == 'pes_ms_exp_la'){
 
-    pes_output <- pes_ms_exp_la(process_output = process_output)
+    pes_output <- pes_ms_exp_la(process_output = process_output,
+                                large_n = large_n,
+                                large_n_sites = large_n_sites)
 
   }else if(output_function == 'pes_ms_anom_la'){
 
-    pes_output <- pes_ms_anom_la(process_output = process_output)
+    pes_output <- pes_ms_anom_la(process_output = process_output,
+                                 large_n = large_n,
+                                 large_n_sites = large_n_sites)
 
   }else{cli::cli_abort('Please enter a valid output_function for this check type.')}
 
