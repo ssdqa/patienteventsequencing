@@ -41,7 +41,8 @@ pes_process_example <- pes_process(cohort = cohort,
                                    user_cutoff = 10000,
                                    n_event_a = 1,
                                    n_event_b = 2,
-                                   pes_event_file = pes_events)
+                                   pes_event_file = pes_events) %>%
+  suppressMessages()
 
 pes_process_example
 
