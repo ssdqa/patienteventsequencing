@@ -16,3 +16,4 @@ meeting the user defined threshold of time between events
 \description{
 \emph{Single Site, Anomaly, Longitudinal}
 }
+\keyword{internal}

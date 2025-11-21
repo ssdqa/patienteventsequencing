@@ -7,11 +7,10 @@ conn <- mk_testdb_omop()
 
 #' Establish connection to database and generate internal configurations
 initialize_dq_session(session_name = 'pes_process_test',
-                      working_directory = getwd(),
+                      working_directory = my_directory,
                       db_conn = conn,
                       is_json = FALSE,
-                      file_subdirectory = system.file('extdata',
-                                        package = 'patienteventsequencing'),
+                      file_subdirectory = my_file_folder,
                       cdm_schema = NA)
 
 #' Build mock study cohort
@@ -39,7 +38,7 @@ pes_process_example <- pes_process(cohort = cohort,
                                    anomaly_or_exploratory = 'exploratory',
                                    time = FALSE,
                                    omop_or_pcornet = 'omop',
-                                   user_cutoff = 15,
+                                   user_cutoff = 10000,
                                    n_event_a = 1,
                                    n_event_b = 2,
                                    pes_event_file = pes_events)
@@ -49,9 +48,10 @@ pes_process_example
 #' Execute `pes_output` function
 pes_output_example <- pes_output(process_output = pes_process_example)
 
-pes_output_example
+pes_output_example[[1]]
+pes_output_example[[2]]
 
 #' Easily convert the graph into an interactive ggiraph or plotly object with
 #' `make_interactive_squba()`
 
-make_interactive_squba(pes_output_example)
+make_interactive_squba(pes_output_example[[2]])

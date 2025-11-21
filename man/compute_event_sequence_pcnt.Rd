@@ -77,3 +77,4 @@ occur in X number of days
 \description{
 Compute sequence of 2 events -- PCORnet
 }
+\keyword{internal}

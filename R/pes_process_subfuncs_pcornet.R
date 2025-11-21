@@ -42,6 +42,8 @@
 #'
 #'         if patient_level_tbl = TRUE, a patient level dataframe is also returned
 #'
+#' @keywords internal
+#'
 compute_event_sequence_pcnt <- function(cohort,
                                         grouped_list,
                                         site_col,

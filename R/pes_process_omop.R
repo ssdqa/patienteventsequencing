@@ -44,6 +44,8 @@
 #' @import cli
 #' @importFrom stringr str_wrap
 #'
+#' @keywords internal
+#'
 pes_process_omop <- function(cohort,
                              user_cutoff = 30,
                              n_event_a = 1,

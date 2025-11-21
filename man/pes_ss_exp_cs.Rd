@@ -22,3 +22,4 @@ threshold value
 \description{
 \emph{Single Site, Exploratory, Cross-Sectional}
 }
+\keyword{internal}

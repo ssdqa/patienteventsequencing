@@ -76,3 +76,4 @@ occur in X number of days
 \description{
 Compute sequence of 2 events -- OMOP
 }
+\keyword{internal}

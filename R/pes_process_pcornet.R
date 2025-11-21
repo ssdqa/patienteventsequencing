@@ -38,6 +38,7 @@
 #'         over time analyses will return the same output, grouped by each time
 #'         period in the time span provided
 #'
+#' @keywords internal
 #'
 pes_process_pcornet <- function(cohort,
                                 user_cutoff = 30,

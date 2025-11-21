@@ -25,3 +25,4 @@ and the user provided threshold value
 \description{
 \emph{Multi-Site, Exploratory, Cross-Sectional}
 }
+\keyword{internal}

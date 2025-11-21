@@ -24,6 +24,8 @@ NULL
 #'         thresholds: 30 days, 60 days, 90 days, one year, and the user provided
 #'         threshold value
 #'
+#' @keywords internal
+#'
 pes_ss_exp_cs <- function(process_output){
 
 
@@ -119,6 +121,8 @@ pes_ss_exp_cs <- function(process_output){
 #'         and the user provided threshold value
 #'
 #'         dotted line represents the all site median
+#'
+#' @keywords internal
 #'
 pes_ms_exp_cs <- function(process_output,
                           large_n = FALSE,
@@ -269,6 +273,8 @@ pes_ms_exp_cs <- function(process_output,
 #' @return a line graph displaying the proportion of patients meeting the user provided
 #'         threshold of time between events over time
 #'
+#' @keywords internal
+#'
 pes_ss_exp_la <- function(process_output){
 
   expand_cts <- process_output %>%
@@ -335,6 +341,8 @@ pes_ss_exp_la <- function(process_output){
 #' @return a line graph displaying the proportion of patients meeting the user provided
 #'         threshold of time between events over time; each line represents an individual site,
 #'         with an additional line representing the all site median
+#'
+#' @keywords internal
 #'
 pes_ms_exp_la <- function(process_output,
                           large_n = FALSE,
@@ -418,6 +426,8 @@ pes_ms_exp_la <- function(process_output,
 #' @return a control chart highlighting anomalies in the proportion of patients
 #'         meeting the user defined threshold of time between events
 #'
+#' @keywords internal
+#'
 pes_ss_anom_la <- function(process_output){
 
   thrs <- process_output %>% distinct(user_cutoff) %>% pull()
@@ -478,6 +488,8 @@ pes_ss_anom_la <- function(process_output){
 #'         anomalous, the color of the dot represents the proportion of patients
 #'         for a given threshold window, and the size of the dot represents the mean proportion
 #'         across all sites
+#'
+#' @keywords internal
 #'
 pes_ms_anom_cs <- function(process_output,
                            large_n = FALSE,
@@ -731,6 +743,8 @@ pes_ms_anom_cs <- function(process_output,
 #'    of time between events across time with the Euclidean distance associated with each line
 #'    3) a bar graph with the Euclidean distance value for each site, with the average
 #'    proportion as the fill
+#'
+#' @keywords internal
 #'
 pes_ms_anom_la <- function(process_output,
                            large_n = FALSE,

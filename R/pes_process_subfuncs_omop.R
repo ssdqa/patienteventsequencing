@@ -50,6 +50,8 @@
 #' @importFrom tidyr fill
 #' @importFrom tidyr tibble
 #'
+#' @keywords internal
+#'
 
 compute_event_sequence_omop <- function(cohort,
                                         grouped_list,

@@ -16,3 +16,4 @@ threshold of time between events over time
 \description{
 \emph{Single Site, Exploratory, Longitudinal}
 }
+\keyword{internal}
