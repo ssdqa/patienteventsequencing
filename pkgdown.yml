@@ -3,7 +3,7 @@ pkgdown: 2.2.0
 pkgdown_sha: ~
 articles:
   multisite_independent: multisite_independent.html
-last_built: 2025-11-21T18:54Z
+last_built: 2025-11-21T19:08Z
 urls:
   reference: https://ssdqa.github.io/patienteventsequencing/reference
   article: https://ssdqa.github.io/patienteventsequencing/articles
