@@ -79,7 +79,7 @@ pes_process_pcornet <- function(cohort,
   # Prep cohort
 
   cohort_prep <- prepare_cohort(cohort_tbl = cohort_filter, age_groups = age_groups,
-                                codeset = NULL, omop_or_pcornet = 'pcornet') %>%
+                                omop_or_pcornet = 'pcornet') %>%
     group_by(!!! syms(grouped_list))
 
   for(k in 1:length(site_list_adj)) {
